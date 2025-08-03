@@ -13,13 +13,15 @@ const Search = () => {
 
     setLoading(true);
     setError(null);
+    setUserData(null);
     
     const { data, error } = await fetchUserData(username);
     
     setLoading(false);
     if (error) {
-      setError(error);
-      setUserData(null);
+      setError(error === 'User not found' 
+        ? "Looks like we can't find the user" 
+        : "An error occurred. Please try again.");
     } else {
       setUserData(data);
     }
@@ -48,9 +50,7 @@ const Search = () => {
       
       {error && (
         <p className="status-message error">
-          {error === 'User not found' 
-            ? "Looks like we can't find the user" 
-            : "An error occurred. Please try again."}
+          {error}
         </p>
       )}
 
@@ -72,11 +72,6 @@ const Search = () => {
             >
               View GitHub Profile
             </a>
-            <div className="stats">
-              <span>Followers: {userData.followers}</span>
-              <span>Following: {userData.following}</span>
-              <span>Repos: {userData.public_repos}</span>
-            </div>
           </div>
         </div>
       )}

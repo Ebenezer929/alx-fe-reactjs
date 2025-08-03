@@ -14,12 +14,12 @@ const Search = () => {
     setLoading(true);
     setError(null);
     setUserData(null);
-    
+
     try {
-      const response = await fetchUserData(username);
-      setUserData(response.data);
+      const data = await fetchUserData(username);
+      setUserData(data);
     } catch (err) {
-      setError("Looks like we can't find the user");
+      setError("Looks like we can't find the user"); // Exact error message
     } finally {
       setLoading(false);
     }
@@ -27,7 +27,6 @@ const Search = () => {
 
   return (
     <div className="search-container">
-      <h2>Search GitHub Users</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -36,13 +35,17 @@ const Search = () => {
           placeholder="Enter GitHub username"
         />
         <button type="submit" disabled={loading}>
-          Search
+          {loading ? 'Searching...' : 'Search'}
         </button>
       </form>
 
-      {loading && <p>Loading...</p>}
-      
-      {error && <p>{error}</p>}
+      {loading && <div className="status">Loading...</div>}
+
+      {error && (
+        <div className="error-message">
+          Looks like we can't find the user
+        </div>
+      )}
 
       {userData && (
         <div className="user-profile">
@@ -57,7 +60,7 @@ const Search = () => {
             target="_blank" 
             rel="noopener noreferrer"
           >
-            View GitHub Profile
+            View Profile
           </a>
         </div>
       )}

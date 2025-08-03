@@ -15,64 +15,50 @@ const Search = () => {
     setError(null);
     setUserData(null);
     
-    const { data, error } = await fetchUserData(username);
-    
-    setLoading(false);
-    if (error) {
-      setError(error === 'User not found' 
-        ? "Looks like we can't find the user" 
-        : "An error occurred. Please try again.");
-    } else {
-      setUserData(data);
+    try {
+      const response = await fetchUserData(username);
+      setUserData(response.data);
+    } catch (err) {
+      setError("Looks like we can't find the user");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="search-container">
-      <form onSubmit={handleSubmit} className="search-form">
+      <h2>Search GitHub Users</h2>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Enter GitHub username"
-          className="search-input"
         />
-        <button 
-          type="submit" 
-          className="search-button"
-          disabled={loading}
-        >
-          {loading ? 'Searching...' : 'Search'}
+        <button type="submit" disabled={loading}>
+          Search
         </button>
       </form>
 
-      {loading && <p className="status-message">Loading...</p>}
+      {loading && <p>Loading...</p>}
       
-      {error && (
-        <p className="status-message error">
-          {error}
-        </p>
-      )}
+      {error && <p>{error}</p>}
 
       {userData && (
-        <div className="user-card">
+        <div className="user-profile">
           <img 
             src={userData.avatar_url} 
-            alt={userData.login} 
-            className="avatar"
+            alt={`${userData.login}'s avatar`} 
+            width="100"
           />
-          <div className="user-info">
-            <h2>{userData.name || userData.login}</h2>
-            <p>{userData.bio || 'No bio available'}</p>
-            <a 
-              href={userData.html_url} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="profile-link"
-            >
-              View GitHub Profile
-            </a>
-          </div>
+          <h3>{userData.name || userData.login}</h3>
+          <a 
+            href={userData.html_url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            View GitHub Profile
+          </a>
         </div>
       )}
     </div>

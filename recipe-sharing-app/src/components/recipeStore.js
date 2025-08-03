@@ -1,10 +1,15 @@
-// src/components/recipeStore.js
+import { create } from 'zustand';
 
-export const saveRecipe = (key, recipe) => {
-  localStorage.setItem(key, JSON.stringify(recipe));
-};
+const useRecipeStore = create((set) => ({
+  recipes: [],
+  
+  addRecipe: (newRecipe) => 
+    set((state) => ({ 
+      recipes: [...state.recipes, newRecipe] 
+    })),
+    
+  setRecipes: (recipes) => 
+    set({ recipes }),
+}));
 
-export const getRecipe = (key) => {
-  const data = localStorage.getItem(key);
-  return data ? JSON.parse(data) : null;
-};
+export default useRecipeStore;

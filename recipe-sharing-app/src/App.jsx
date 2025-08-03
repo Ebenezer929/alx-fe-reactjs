@@ -4,7 +4,6 @@ import RecipeList from './components/RecipeList';
 import SearchBar from './components/SearchBar';
 import FavoritesList from './components/FavoritesList';
 import RecommendationsList from './components/RecommendationsList';
-import { saveRecipe, getRecipe } from './components/recipeStore';
 
 function App() {
   return (
@@ -63,5 +62,6 @@ const navLinkStyle = {
   backgroundColor: '#e0e0e0',
   transition: 'background-color 0.3s',
 };
+
 
 export default App;

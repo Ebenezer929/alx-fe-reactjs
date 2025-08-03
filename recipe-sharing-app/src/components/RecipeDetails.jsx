@@ -1,30 +1,38 @@
-// src/components/RecipeDetails.jsx
 import { useParams } from 'react-router-dom';
-import { useRecipeStore } from "../stores/recipeStore";
-import EditRecipeForm from './EditRecipeForm';
-import DeleteRecipeButton from './DeleteRecipeButton';
-import { Link } from 'react-router-dom';
-
-<Link to="/">← Back to Home</Link>
+import useRecipeStore from './recipeStore';
 
 const RecipeDetails = () => {
   const { id } = useParams();
-  const recipe = useRecipeStore((state) =>
-    state.recipes.find((r) => r.id === id)
+  const recipe = useRecipeStore(state => 
+    state.recipes.find(recipe => recipe.id === id)
   );
+  const favorites = useRecipeStore(state => state.favorites);
+  const addFavorite = useRecipeStore(state => state.addFavorite);
+  const removeFavorite = useRecipeStore(state => state.removeFavorite);
 
-  if (!recipe) {
-    return <p>Recipe not found.</p>;
-  }
+  if (!recipe) return <div>Recipe not found</div>;
+
+  const isFavorite = favorites.includes(recipe.id);
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>{recipe.title}</h2>
+    <div className="recipe-details">
+      <h1>{recipe.title}</h1>
       <p>{recipe.description}</p>
-
-      <hr />
-      <EditRecipeForm recipe={recipe} />
-      <DeleteRecipeButton recipeId={recipe.id} />
+      <h3>Ingredients</h3>
+      <ul>
+        {recipe.ingredients.split(',').map((ingredient, i) => (
+          <li key={i}>{ingredient.trim()}</li>
+        ))}
+      </ul>
+      <h3>Instructions</h3>
+      <p>{recipe.instructions}</p>
+      
+      <button
+        onClick={() => isFavorite ? removeFavorite(recipe.id) : addFavorite(recipe.id)}
+        className={`favorite-btn ${isFavorite ? 'active' : ''}`}
+      >
+        {isFavorite ? '❤️ Remove Favorite' : '🤍 Add to Favorites'}
+      </button>
     </div>
   );
 };

@@ -30,6 +30,18 @@ body {
   min-height: 100vh;
 }
 
+.search-bar {
+  margin: 20px 0;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

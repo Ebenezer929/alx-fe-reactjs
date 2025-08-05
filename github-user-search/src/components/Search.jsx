@@ -1,98 +1,60 @@
 import { useState } from 'react';
-import { advancedSearchUsers } from '../services/githubService';
+import { fetchUserData } from '../services/githubService';
 
 const Search = () => {
-  const [searchParams, setSearchParams] = useState({
-    username: '',
-    location: '',
-    minRepos: '',
-    language: ''
-  });
-  const [users, setUsers] = useState([]);
+  const [username, setUsername] = useState('');
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target; // Using target.value here
-    setSearchParams(prev => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+    
     try {
-      const results = await advancedSearchUsers(searchParams);
-      setUsers(results);
+      const data = await fetchUserData(username);
+      setUserData(data);
     } catch (err) {
-      setError(err.message || "Looks like we can't find any matching users");
+      setError('Looks like we cant find the user');
+      setUserData(null);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">GitHub User Search</h1>
-      
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block text-gray-700 mb-2">Username</label>
-            <input
-              type="text"
-              name="username"
-              value={searchParams.username}
-              onChange={handleInputChange} // Using target.value through handleInputChange
-              placeholder="e.g. octocat"
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 mb-2">Location</label>
-            <input
-              type="text"
-              name="location"
-              value={searchParams.location}
-              onChange={handleInputChange} // Using target.value through handleInputChange
-              placeholder="e.g. San Francisco"
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 mb-2">Min Repositories</label>
-            <input
-              type="number"
-              name="minRepos"
-              value={searchParams.minRepos}
-              onChange={handleInputChange} // Using target.value through handleInputChange
-              placeholder="e.g. 10"
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 mb-2">Language</label>
-            <input
-              type="text"
-              name="language"
-              value={searchParams.language}
-              onChange={handleInputChange} // Using target.value through handleInputChange
-              placeholder="e.g. JavaScript"
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
-        </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className={`px-4 py-2 rounded text-white ${loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'}`}
-        >
-          {loading ? 'Searching...' : 'Search'}
-        </button>
+    <div className="search-container">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Enter GitHub username"
+          required
+        />
+        <button type="submit">Search</button>
       </form>
 
-      {/* Rest of the component remains the same */}
+      {loading && <p>Loading...</p>}
+      
+      {error && <p>{error}</p>}
+      
+      {userData && (
+        <div className="user-info">
+          <img 
+            src={userData.avatar_url} 
+            alt={`${userData.login}'s avatar`} 
+            width="100" 
+          />
+          <h2>{userData.name || userData.login}</h2>
+          <p>{userData.bio}</p>
+          <p>Followers: {userData.followers} | Following: {userData.following}</p>
+          <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
+            View GitHub Profile
+          </a>
+        </div>
+      )}
     </div>
   );
 };

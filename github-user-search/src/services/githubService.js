@@ -1,42 +1,23 @@
 import axios from 'axios';
 
-const API_URL = 'https://api.github.com';
-
-const advancedSearchUsers = async (params) => {
+/**
+ * Fetches GitHub user data by username
+ * @param {string} username - GitHub username to search for
+ * @returns {Promise<Object>} User data from GitHub API
+ * @throws {Error} If the request fails or user is not found
+ */
+const fetchUserData = async (username) => {
   try {
-    // Build query string based on provided parameters
-    let query = '';
-    if (params.username) query += `${params.username} in:login`;
-    if (params.location) query += ` location:${params.location}`;
-    if (params.minRepos) query += ` repos:>${params.minRepos}`;
-    if (params.language) query += ` language:${params.language}`;
-
-    const response = await axios.get(`${API_URL}/search/users`, {
-      params: {
-        q: query,
-        per_page: 30
-      }
-    });
-
-    // Get detailed info for each user
-    const usersWithDetails = await Promise.all(
-      response.data.items.map(async (user) => {
-        try {
-          const userDetails = await axios.get(`${API_URL}/users/${user.login}`);
-          return userDetails.data;
-        } catch {
-          return { ...user, public_repos: null, followers: null, location: null };
-        }
-      })
-    );
-
-    return usersWithDetails;
+    const response = await axios.get(`https://api.github.com/users/${username}`);
+    return response.data;
   } catch (error) {
-    if (error.response?.status === 403) {
-      throw new Error('API rate limit exceeded');
+    // Handle specific error cases if needed
+    if (error.response && error.response.status === 404) {
+      throw new Error('User not found');
     }
-    throw new Error("Looks like we can't find any matching users");
+    throw new Error('Failed to fetch user data');
   }
 };
 
-export { advancedSearchUsers };
+// Named export as specified in requirements
+export { fetchUserData };

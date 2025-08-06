@@ -3,10 +3,7 @@ import axios from 'axios';
 const BASE_URL = 'https://api.github.com';
 
 /**
- * Fetches GitHub user data by username
- * @param {string} username - GitHub username to search for
- * @returns {Promise<Object>} User data from GitHub API
- * @throws {Error} If the request fails or user is not found
+ * Basic user fetch by username
  */
 export const fetchUserData = async (username) => {
   try {
@@ -21,40 +18,32 @@ export const fetchUserData = async (username) => {
 };
 
 /**
- * Searches GitHub users with advanced filters
- * @param {string} username - Username search term
- * @param {string} location - Location filter
- * @param {number} minRepos - Minimum repositories filter
- * @returns {Promise<Array>} Array of matching users
- * @throws {Error} If the request fails
+ * Advanced user search with multiple parameters
  */
-export const searchUsers = async (username = '', location = '', minRepos = 0) => {
+export const searchUsers = async (params) => {
   try {
-    // Build query string with filters
+    // Construct query string with all parameters
     const queryParts = [];
-    if (username) queryParts.push(`${username} in:login`);
-    if (location) queryParts.push(`location:${location}`);
-    if (minRepos) queryParts.push(`repos:>${minRepos}`);
+    if (params.username) queryParts.push(`${params.username} in:login`);
+    if (params.location) queryParts.push(`location:${params.location}`);
+    if (params.minRepos) queryParts.push(`repos:>${params.minRepos}`);
+
+    const queryString = queryParts.join('+');
+    const apiUrl = `https://api.github.com/search/users?q=${encodeURIComponent(queryString)}`;
+
+    // Make API request
+    const response = await axios.get(apiUrl);
     
-    const query = queryParts.join('+');
-    const url = `${BASE_URL}/search/users?q=${encodeURIComponent(query)}`;
-    
-    const response = await axios.get(url);
-    
-    // Get detailed data for each user
+    // Fetch detailed data for each user
     const usersWithDetails = await Promise.all(
-      response.data.items.map(async (user) => {
-        const details = await fetchUserData(user.login);
-        return {
-          ...user,
-          ...details,
-        };
-      })
+      response.data.items.map(user => 
+        fetchUserData(user.login).catch(() => null)
+      )
     );
-    
-    return usersWithDetails;
+
+    return usersWithDetails.filter(Boolean);
   } catch (error) {
-    console.error('GitHub API error:', error);
+    console.error('Search error:', error);
     throw new Error('Failed to search users');
   }
 };

@@ -35,11 +35,11 @@ export const searchUsers = async (params) => {
     params.minRepos && `repos:>${params.minRepos}`
   ].filter(Boolean);
 
-  // Explicitly include the required API endpoint
-  const apiUrl = `https://api.github.com/search/users?q=${encodeURIComponent(queryParts.join('+'))}`;
+  // Explicit GitHub search API endpoint with query parameters
+  const searchEndpoint = `https://api.github.com/search/users?q=${encodeURIComponent(queryParts.join('+'))}`;
 
   try {
-    const response = await axios.get(apiUrl);
+    const response = await axios.get(searchEndpoint);
     
     // Get detailed data for each user
     const usersWithDetails = await Promise.all(

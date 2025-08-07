@@ -28,20 +28,17 @@ export const fetchUserData = async (username) => {
  * @returns {Promise<Array>} Array of user objects
  */
 export const searchUsers = async (params) => {
-  // Construct query parameters
   const queryParts = [
     params.username && `${params.username} in:login`,
     params.location && `location:${params.location}`,
     params.minRepos && `repos:>${params.minRepos}`
   ].filter(Boolean);
 
-  // Explicit GitHub search API endpoint with query parameters
   const searchEndpoint = `https://api.github.com/search/users?q=${encodeURIComponent(queryParts.join('+'))}`;
 
   try {
     const response = await axios.get(searchEndpoint);
-    
-    // Get detailed data for each user
+
     const usersWithDetails = await Promise.all(
       response.data.items.map(async (user) => {
         try {

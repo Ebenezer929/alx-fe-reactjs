@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { searchUsers } from '../services/githubService';
+import { searchUsers, fetchUserData } from '../services/githubService';
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,12 +15,30 @@ const Search = () => {
     setError(null);
     
     try {
-      const results = await searchUsers({
+      // First search for users matching criteria
+      const searchResults = await searchUsers({
         username: searchTerm,
         location,
         minRepos
       });
-      setUsers(results);
+
+      // Then fetch detailed data for each user
+      const detailedUsers = await Promise.all(
+        searchResults.map(async (user) => {
+          try {
+            const fullDetails = await fetchUserData(user.login);
+            return {
+              ...user,
+              ...fullDetails
+            };
+          } catch (err) {
+            console.error(`Failed to fetch details for ${user.login}:`, err);
+            return null;
+          }
+        })
+      );
+
+      setUsers(detailedUsers.filter(Boolean));
     } catch (err) {
       setError(err.message);
       setUsers([]);

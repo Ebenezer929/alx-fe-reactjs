@@ -52,7 +52,7 @@ const HomePage = () => {
           ))}
         </div>
 
-        {/* Empty State */}
+        {/* Empty part or state */}
         {recipes.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-500 text-lg">No recipes found.</p>

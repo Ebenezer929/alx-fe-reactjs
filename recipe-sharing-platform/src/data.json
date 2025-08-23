@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Spaghetti Carbonara",
+    "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
+    "image": "https://via.placeholder.com/300x200/FF6B6B/white?text=Spaghetti+Carbonara"
+  },
+  {
+    "id": 2,
+    "title": "Chicken Tikka Masala",
+    "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
+    "image": "https://via.placeholder.com/300x200/4ECDC4/white?text=Chicken+Tikka"
+  },
+  {
+    "id": 3,
+    "title": "Vegetable Stir Fry",
+    "summary": "Fresh vegetables quickly cooked in a wok with savory sauces and spices.",
+    "image": "https://via.placeholder.com/300x200/45B7D1/white?text=Veg+Stir+Fry"
+  },
+  {
+    "id": 4,
+    "title": "Chocolate Chip Cookies",
+    "summary": "Classic homemade cookies with melty chocolate chips and a soft center.",
+    "image": "https://via.placeholder.com/300x200/F7DC6F/333?text=Chocolate+Cookies"
+  },
+  {
+    "id": 5,
+    "title": "Beef Bourguignon",
+    "summary": "French beef stew braised in red wine with mushrooms, onions, and bacon.",
+    "image": "https://via.placeholder.com/300x200/BB8FCE/white?text=Beef+Bourguignon"
+  },
+  {
+    "id": 6,
+    "title": "Greek Salad",
+    "summary": "Fresh Mediterranean salad with tomatoes, cucumbers, olives, and feta cheese.",
+    "image": "https://via.placeholder.com/300x200/52BE80/white?text=Greek+Salad"
+  }
+]

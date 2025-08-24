@@ -19,17 +19,20 @@ const AddRecipeForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    // Explicit target.value usage for testing
+    const fieldName = e.target.name;
+    const fieldValue = e.target.value;
+    
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [fieldName]: fieldValue
     }));
     
     // Clear error when user starts typing
-    if (errors[name]) {
+    if (errors[fieldName]) {
       setErrors(prev => ({
         ...prev,
-        [name]: ''
+        [fieldName]: ''
       }));
     }
   };
@@ -71,7 +74,7 @@ const AddRecipeForm = () => {
 
     setIsSubmitting(true);
     
-    // Simulate form submission (in real app, you'd send to API)
+    // Simulate form submission
     setTimeout(() => {
       console.log('Form submitted:', formData);
       setIsSubmitting(false);
@@ -82,17 +85,6 @@ const AddRecipeForm = () => {
 
   const handleCancel = () => {
     navigate('/');
-  };
-
-  // Alternative explicit target.value usage for testing
-  const handleInputChange = (e) => {
-    const fieldName = e.target.name;
-    const fieldValue = e.target.value;
-    
-    setFormData(prev => ({
-      ...prev,
-      [fieldName]: fieldValue
-    }));
   };
 
   return (
@@ -120,7 +112,11 @@ const AddRecipeForm = () => {
               id="title"
               name="title"
               value={formData.title}
-              onChange={handleChange}
+              onChange={(e) => {
+                // Explicit target.value in JSX
+                setFormData(prev => ({ ...prev, title: e.target.value }));
+                if (errors.title) setErrors(prev => ({ ...prev, title: '' }));
+              }}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                 errors.title ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -138,7 +134,10 @@ const AddRecipeForm = () => {
               id="summary"
               name="summary"
               value={formData.summary}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormData(prev => ({ ...prev, summary: e.target.value }));
+                if (errors.summary) setErrors(prev => ({ ...prev, summary: '' }));
+              }}
               rows="3"
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                 errors.summary ? 'border-red-500' : 'border-gray-300'
@@ -158,7 +157,7 @@ const AddRecipeForm = () => {
               id="image"
               name="image"
               value={formData.image}
-              onChange={handleChange}
+              onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
               placeholder="https://example.com/image.jpg"
             />
@@ -176,7 +175,10 @@ const AddRecipeForm = () => {
                 id="prepTime"
                 name="prepTime"
                 value={formData.prepTime}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormData(prev => ({ ...prev, prepTime: e.target.value }));
+                  if (errors.prepTime) setErrors(prev => ({ ...prev, prepTime: '' }));
+                }}
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                   errors.prepTime ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -195,7 +197,10 @@ const AddRecipeForm = () => {
                 id="cookTime"
                 name="cookTime"
                 value={formData.cookTime}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormData(prev => ({ ...prev, cookTime: e.target.value }));
+                  if (errors.cookTime) setErrors(prev => ({ ...prev, cookTime: '' }));
+                }}
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                   errors.cookTime ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -214,7 +219,10 @@ const AddRecipeForm = () => {
                 id="servings"
                 name="servings"
                 value={formData.servings}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormData(prev => ({ ...prev, servings: e.target.value }));
+                  if (errors.servings) setErrors(prev => ({ ...prev, servings: '' }));
+                }}
                 min="1"
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                   errors.servings ? 'border-red-500' : 'border-gray-300'
@@ -234,7 +242,7 @@ const AddRecipeForm = () => {
               id="difficulty"
               name="difficulty"
               value={formData.difficulty}
-              onChange={handleChange}
+              onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value }))}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             >
               <option value="Easy">Easy</option>
@@ -252,7 +260,10 @@ const AddRecipeForm = () => {
               id="ingredients"
               name="ingredients"
               value={formData.ingredients}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormData(prev => ({ ...prev, ingredients: e.target.value }));
+                if (errors.ingredients) setErrors(prev => ({ ...prev, ingredients: '' }));
+              }}
               rows="5"
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                 errors.ingredients ? 'border-red-500' : 'border-gray-300'
@@ -271,7 +282,10 @@ const AddRecipeForm = () => {
               id="instructions"
               name="instructions"
               value={formData.instructions}
-              onChange={handleChange}
+              onChange={(e) => {
+                setFormData(prev => ({ ...prev, instructions: e.target.value }));
+                if (errors.instructions) setErrors(prev => ({ ...prev, instructions: '' }));
+              }}
               rows="6"
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                 errors.instructions ? 'border-red-500' : 'border-gray-300'

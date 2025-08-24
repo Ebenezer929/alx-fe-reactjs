@@ -35,9 +35,9 @@ const RecipeDetail = () => {
     );
   }
 
-  // Use actual recipe data instead of mock data
+  // Use actual recipe data - support both 'instructions' and 'steps'
   const ingredients = recipe.ingredients || [];
-  const steps = recipe.steps || [];
+  const instructions = recipe.instructions || recipe.steps || [];
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -52,7 +52,7 @@ const RecipeDetail = () => {
 
         {/* Recipe Header */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-          <div className="h-64 sm:h-80 lg:h-96 overflow-hidden">
+          <div className="h-48 sm:h-56 lg:h-64 overflow-hidden">
             <img
               src={recipe.image}
               alt={recipe.title}
@@ -90,7 +90,7 @@ const RecipeDetail = () => {
           </div>
         </div>
 
-        {/* Ingredients and Steps Grid */}
+        {/* Ingredients and Instructions Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Ingredients Card */}
           <div className="bg-white rounded-lg shadow-md p-6">
@@ -108,19 +108,19 @@ const RecipeDetail = () => {
             </ul>
           </div>
 
-          {/* Steps Card */}
+          {/* Instructions Card */}
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
               <span className="w-2 h-6 bg-green-600 mr-3 rounded"></span>
-              Cooking Steps
+              Cooking Instructions
             </h2>
             <ol className="space-y-4">
-              {steps.map((step, index) => (
+              {instructions.map((instruction, index) => (
                 <li key={index} className="flex items-start">
                   <span className="bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0 text-sm font-bold">
                     {index + 1}
                   </span>
-                  <span className="text-gray-700 leading-relaxed">{step}</span>
+                  <span className="text-gray-700 leading-relaxed">{instruction}</span>
                 </li>
               ))}
             </ol>
@@ -134,6 +134,39 @@ const RecipeDetail = () => {
             {recipe.chefsNotes || "This recipe can be easily customized with your favorite ingredients. Feel free to experiment and make it your own. Store any leftovers in an airtight container and enjoy within a few days."}
           </p>
         </div>
+
+        {/* Nutrition Information (Optional) */}
+        {recipe.nutrition && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Nutrition Information</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {recipe.nutrition.calories && (
+                <div className="text-center">
+                  <span className="block text-xl font-bold text-orange-600">{recipe.nutrition.calories}</span>
+                  <span className="text-sm text-gray-600">Calories</span>
+                </div>
+              )}
+              {recipe.nutrition.protein && (
+                <div className="text-center">
+                  <span className="block text-xl font-bold text-blue-600">{recipe.nutrition.protein}g</span>
+                  <span className="text-sm text-gray-600">Protein</span>
+                </div>
+              )}
+              {recipe.nutrition.carbs && (
+                <div className="text-center">
+                  <span className="block text-xl font-bold text-green-600">{recipe.nutrition.carbs}g</span>
+                  <span className="text-sm text-gray-600">Carbs</span>
+                </div>
+              )}
+              {recipe.nutrition.fat && (
+                <div className="text-center">
+                  <span className="block text-xl font-bold text-yellow-600">{recipe.nutrition.fat}g</span>
+                  <span className="text-sm text-gray-600">Fat</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

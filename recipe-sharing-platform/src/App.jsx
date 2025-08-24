@@ -1,17 +1,13 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import HomePage from './components/HomePage'
-import RecipeDetail from './components/RecipeDetail'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
+import App from './App.jsx'
+import './index.css'
 
-function App() {
-  return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/recipe/:id" element={<RecipeDetail />} />
-      </Routes>
-    </div>
-  )
-}
-
-export default App
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+)

@@ -3,36 +3,191 @@
     "id": 1,
     "title": "Spaghetti Carbonara",
     "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
-    "image": "https://via.placeholder.com/300x200/FF6B6B/white?text=Spaghetti+Carbonara"
+    "image": "https://via.placeholder.com/200x150/FF6B6B/white?text=Spaghetti",
+    "ingredients": [
+      "400g spaghetti",
+      "200g pancetta or guanciale, diced",
+      "4 large eggs",
+      "100g Pecorino Romano cheese, grated",
+      "50g Parmesan cheese, grated",
+      "Freshly ground black pepper",
+      "Salt to taste"
+    ],
+    "steps": [
+      "Bring a large pot of salted water to boil and cook spaghetti al dente.",
+      "While pasta cooks, fry pancetta in a large pan until crispy.",
+      "In a bowl, whisk eggs and mix with grated cheeses and black pepper.",
+      "Drain pasta, reserving a cup of pasta water.",
+      "Add hot pasta to the pancetta pan, remove from heat.",
+      "Quickly add egg mixture, stirring constantly to create a creamy sauce.",
+      "Add pasta water as needed to adjust consistency.",
+      "Serve immediately with extra cheese and pepper."
+    ],
+    "prepTime": "10m",
+    "cookTime": "15m",
+    "servings": 4,
+    "difficulty": "Medium"
   },
   {
     "id": 2,
     "title": "Chicken Tikka Masala",
     "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
-    "image": "https://via.placeholder.com/300x200/4ECDC4/white?text=Chicken+Tikka"
+    "image": "https://via.placeholder.com/200x150/4ECDC4/white?text=Chicken",
+    "ingredients": [
+      "500g chicken breast, cubed",
+      "200ml yogurt",
+      "2 tbsp tikka masala paste",
+      "1 onion, finely chopped",
+      "400g canned tomatoes",
+      "100ml cream",
+      "2 tbsp butter",
+      "1 tbsp ginger-garlic paste",
+      "1 tsp garam masala",
+      "1 tsp paprika",
+      "Fresh cilantro for garnish"
+    ],
+    "steps": [
+      "Marinate chicken in yogurt and 1 tbsp tikka paste for 30 minutes.",
+      "Grill or pan-fry chicken until cooked through and slightly charred.",
+      "In a separate pan, melt butter and sauté onions until golden.",
+      "Add ginger-garlic paste and remaining spices, cook for 2 minutes.",
+      "Add canned tomatoes and simmer for 10 minutes.",
+      "Blend sauce until smooth, then return to pan.",
+      "Add cooked chicken and cream, simmer for 5 minutes.",
+      "Garnish with cilantro and serve with rice or naan."
+    ],
+    "prepTime": "20m",
+    "cookTime": "25m",
+    "servings": 4,
+    "difficulty": "Medium"
   },
   {
     "id": 3,
     "title": "Vegetable Stir Fry",
     "summary": "Fresh vegetables quickly cooked in a wok with savory sauces and spices.",
-    "image": "https://via.placeholder.com/300x200/45B7D1/white?text=Veg+Stir+Fry"
+    "image": "https://via.placeholder.com/200x150/45B7D1/white?text=Veg+Stir+Fry",
+    "ingredients": [
+      "1 bell pepper, sliced",
+      "1 carrot, julienned",
+      "100g broccoli florets",
+      "100g snow peas",
+      "1 onion, sliced",
+      "2 cloves garlic, minced",
+      "1 tbsp fresh ginger, grated",
+      "2 tbsp soy sauce",
+      "1 tbsp oyster sauce",
+      "1 tsp sesame oil",
+      "2 tbsp vegetable oil"
+    ],
+    "steps": [
+      "Heat vegetable oil in a wok or large pan over high heat.",
+      "Add garlic and ginger, stir-fry for 30 seconds until fragrant.",
+      "Add onions and carrots, cook for 2 minutes.",
+      "Add remaining vegetables and stir-fry for 3-4 minutes until crisp-tender.",
+      "Add soy sauce and oyster sauce, toss to combine.",
+      "Drizzle with sesame oil and serve immediately with rice.",
+      "Garnish with sesame seeds if desired."
+    ],
+    "prepTime": "15m",
+    "cookTime": "10m",
+    "servings": 3,
+    "difficulty": "Easy"
   },
   {
     "id": 4,
     "title": "Chocolate Chip Cookies",
     "summary": "Classic homemade cookies with melty chocolate chips and a soft center.",
-    "image": "https://via.placeholder.com/300x200/F7DC6F/333?text=Chocolate+Cookies"
+    "image": "https://via.placeholder.com/200x150/F7DC6F/333?text=Cookies",
+    "ingredients": [
+      "225g all-purpose flour",
+      "1/2 tsp baking soda",
+      "170g butter, softened",
+      "150g brown sugar",
+      "100g white sugar",
+      "1 tsp vanilla extract",
+      "1 large egg",
+      "200g chocolate chips",
+      "1/2 tsp salt"
+    ],
+    "steps": [
+      "Preheat oven to 350°F (175°C) and line baking sheets with parchment.",
+      "Whisk together flour, baking soda, and salt in a bowl.",
+      "Cream butter and sugars until light and fluffy.",
+      "Beat in egg and vanilla extract until combined.",
+      "Gradually mix in flour mixture until just combined.",
+      "Fold in chocolate chips.",
+      "Drop rounded tablespoons of dough onto baking sheets.",
+      "Bake for 10-12 minutes until edges are golden but centers are soft.",
+      "Cool on baking sheet for 5 minutes before transferring to wire rack."
+    ],
+    "prepTime": "15m",
+    "cookTime": "12m",
+    "servings": 24,
+    "difficulty": "Easy"
   },
   {
     "id": 5,
     "title": "Beef Bourguignon",
     "summary": "French beef stew braised in red wine with mushrooms, onions, and bacon.",
-    "image": "https://via.placeholder.com/300x200/BB8FCE/white?text=Beef+Bourguignon"
+    "image": "https://via.placeholder.com/200x150/BB8FCE/white?text=Beef+Stew",
+    "ingredients": [
+      "1kg beef chuck, cubed",
+      "200g bacon, diced",
+      "500ml red wine (Burgundy)",
+      "2 cups beef stock",
+      "200g pearl onions",
+      "250g mushrooms, quartered",
+      "2 carrots, sliced",
+      "3 cloves garlic, minced",
+      "2 tbsp tomato paste",
+      "1 bouquet garni (thyme, bay leaf, parsley)",
+      "3 tbsp flour",
+      "Salt and pepper to taste"
+    ],
+    "steps": [
+      "Preheat oven to 325°F (160°C).",
+      "Season beef with salt and pepper, brown in batches in a Dutch oven.",
+      "Cook bacon until crispy, remove and set aside.",
+      "Sauté vegetables in the same pot until softened.",
+      "Add flour and cook for 1 minute, then add tomato paste.",
+      "Deglaze with red wine, scraping up browned bits.",
+      "Add beef stock, browned beef, bacon, and bouquet garni.",
+      "Cover and braise in oven for 3-4 hours until beef is tender.",
+      "Sauté mushrooms separately and add to stew before serving."
+    ],
+    "prepTime": "30m",
+    "cookTime": "4h",
+    "servings": 6,
+    "difficulty": "Hard"
   },
   {
     "id": 6,
     "title": "Greek Salad",
     "summary": "Fresh Mediterranean salad with tomatoes, cucumbers, olives, and feta cheese.",
-    "image": "https://via.placeholder.com/300x200/52BE80/white?text=Greek+Salad"
+    "image": "https://via.placeholder.com/200x150/52BE80/white?text=Greek+Salad",
+    "ingredients": [
+      "4 large tomatoes, chopped",
+      "1 cucumber, sliced",
+      "1 red onion, thinly sliced",
+      "200g feta cheese, cubed",
+      "100g Kalamata olives",
+      "1 green bell pepper, sliced",
+      "2 tbsp extra virgin olive oil",
+      "1 tbsp red wine vinegar",
+      "1 tsp dried oregano",
+      "Salt and pepper to taste"
+    ],
+    "steps": [
+      "Combine tomatoes, cucumber, onion, bell pepper, and olives in a large bowl.",
+      "In a small bowl, whisk together olive oil, red wine vinegar, oregano, salt and pepper.",
+      "Pour dressing over vegetables and toss gently to combine.",
+      "Add feta cheese cubes and gently mix.",
+      "Let salad sit for 10 minutes before serving to allow flavors to meld.",
+      "Serve as a side dish or with crusty bread for a light meal."
+    ],
+    "prepTime": "15m",
+    "cookTime": "0m",
+    "servings": 4,
+    "difficulty": "Easy"
   }
 ]

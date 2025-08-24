@@ -1,12 +1,17 @@
-import React from 'react';
-import HomePage from './components/HomePage';
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import HomePage from './components/HomePage'
+import RecipeDetail from './components/RecipeDetail'
 
 function App() {
   return (
     <div className="App">
-      <HomePage />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/recipe/:id" element={<RecipeDetail />} />
+      </Routes>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

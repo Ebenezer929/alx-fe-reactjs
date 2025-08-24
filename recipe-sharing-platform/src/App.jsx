@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import HomePage from './components/HomePage'
 import RecipeDetail from './components/RecipeDetail'
+import { BrowserRouter } from 'react-router-dom'
 import AddRecipeForm from './components/AddRecipeForm'
 
 function App() {

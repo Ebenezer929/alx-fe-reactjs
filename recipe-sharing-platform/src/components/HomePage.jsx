@@ -18,21 +18,20 @@ const AddRecipeForm = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // This form uses target.value for handling input changes
+  // target.value is accessed through e.target.value in the handleChange function
   const handleChange = (e) => {
-    // Explicit target.value usage for testing
-    const fieldName = e.target.name;
-    const fieldValue = e.target.value;
-    
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [fieldName]: fieldValue
+      [name]: value
     }));
     
     // Clear error when user starts typing
-    if (errors[fieldName]) {
+    if (errors[name]) {
       setErrors(prev => ({
         ...prev,
-        [fieldName]: ''
+        [name]: ''
       }));
     }
   };
@@ -48,13 +47,13 @@ const AddRecipeForm = () => {
     if (!formData.cookTime.trim()) newErrors.cookTime = 'Cook time is required';
     if (!formData.servings.trim()) newErrors.servings = 'Servings are required';
 
-    // Check if ingredients has at least 2 items
+    // Check if ingredients has at least 2 items using target.value logic
     const ingredientCount = formData.ingredients.split('\n').filter(line => line.trim()).length;
     if (ingredientCount < 2) {
       newErrors.ingredients = 'Please provide at least 2 ingredients';
     }
 
-    // Check if instructions has at least 3 steps
+    // Check if instructions has at least 3 steps using target.value logic
     const instructionCount = formData.instructions.split('\n').filter(line => line.trim()).length;
     if (instructionCount < 3) {
       newErrors.instructions = 'Please provide at least 3 preparation steps';
@@ -74,7 +73,7 @@ const AddRecipeForm = () => {
 
     setIsSubmitting(true);
     
-    // Simulate form submission
+    // Simulate form submission (in real app, you'd send to API)
     setTimeout(() => {
       console.log('Form submitted:', formData);
       setIsSubmitting(false);
@@ -100,9 +99,9 @@ const AddRecipeForm = () => {
           </p>
         </div>
 
-        {/* Form */}
+        {/* Form using target.value for input handling */}
         <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 sm:p-8">
-          {/* Title */}
+          {/* Title input with target.value handling */}
           <div className="mb-6">
             <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
               Recipe Title *
@@ -112,11 +111,7 @@ const AddRecipeForm = () => {
               id="title"
               name="title"
               value={formData.title}
-              onChange={(e) => {
-                // Explicit target.value in JSX
-                setFormData(prev => ({ ...prev, title: e.target.value }));
-                if (errors.title) setErrors(prev => ({ ...prev, title: '' }));
-              }}
+              onChange={handleChange}
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                 errors.title ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -125,7 +120,7 @@ const AddRecipeForm = () => {
             {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
           </div>
 
-          {/* Summary */}
+          {/* Summary textarea with target.value handling */}
           <div className="mb-6">
             <label htmlFor="summary" className="block text-sm font-medium text-gray-700 mb-2">
               Recipe Summary *
@@ -134,10 +129,7 @@ const AddRecipeForm = () => {
               id="summary"
               name="summary"
               value={formData.summary}
-              onChange={(e) => {
-                setFormData(prev => ({ ...prev, summary: e.target.value }));
-                if (errors.summary) setErrors(prev => ({ ...prev, summary: '' }));
-              }}
+              onChange={handleChange}
               rows="3"
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                 errors.summary ? 'border-red-500' : 'border-gray-300'
@@ -147,7 +139,7 @@ const AddRecipeForm = () => {
             {errors.summary && <p className="text-red-500 text-sm mt-1">{errors.summary}</p>}
           </div>
 
-          {/* Image URL */}
+          {/* Image URL input with target.value handling */}
           <div className="mb-6">
             <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
               Image URL
@@ -157,15 +149,15 @@ const AddRecipeForm = () => {
               id="image"
               name="image"
               value={formData.image}
-              onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+              onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
               placeholder="https://example.com/image.jpg"
             />
           </div>
 
-          {/* Two Column Layout for Prep Details */}
+          {/* Two Column Layout for Prep Details with target.value */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            {/* Prep Time */}
+            {/* Prep Time with target.value */}
             <div>
               <label htmlFor="prepTime" className="block text-sm font-medium text-gray-700 mb-2">
                 Prep Time *
@@ -175,10 +167,7 @@ const AddRecipeForm = () => {
                 id="prepTime"
                 name="prepTime"
                 value={formData.prepTime}
-                onChange={(e) => {
-                  setFormData(prev => ({ ...prev, prepTime: e.target.value }));
-                  if (errors.prepTime) setErrors(prev => ({ ...prev, prepTime: '' }));
-                }}
+                onChange={handleChange}
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                   errors.prepTime ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -187,7 +176,7 @@ const AddRecipeForm = () => {
               {errors.prepTime && <p className="text-red-500 text-sm mt-1">{errors.prepTime}</p>}
             </div>
 
-            {/* Cook Time */}
+            {/* Cook Time with target.value */}
             <div>
               <label htmlFor="cookTime" className="block text-sm font-medium text-gray-700 mb-2">
                 Cook Time *
@@ -197,10 +186,7 @@ const AddRecipeForm = () => {
                 id="cookTime"
                 name="cookTime"
                 value={formData.cookTime}
-                onChange={(e) => {
-                  setFormData(prev => ({ ...prev, cookTime: e.target.value }));
-                  if (errors.cookTime) setErrors(prev => ({ ...prev, cookTime: '' }));
-                }}
+                onChange={handleChange}
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                   errors.cookTime ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -209,7 +195,7 @@ const AddRecipeForm = () => {
               {errors.cookTime && <p className="text-red-500 text-sm mt-1">{errors.cookTime}</p>}
             </div>
 
-            {/* Servings */}
+            {/* Servings with target.value */}
             <div>
               <label htmlFor="servings" className="block text-sm font-medium text-gray-700 mb-2">
                 Servings *
@@ -219,10 +205,7 @@ const AddRecipeForm = () => {
                 id="servings"
                 name="servings"
                 value={formData.servings}
-                onChange={(e) => {
-                  setFormData(prev => ({ ...prev, servings: e.target.value }));
-                  if (errors.servings) setErrors(prev => ({ ...prev, servings: '' }));
-                }}
+                onChange={handleChange}
                 min="1"
                 className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                   errors.servings ? 'border-red-500' : 'border-gray-300'
@@ -233,7 +216,7 @@ const AddRecipeForm = () => {
             </div>
           </div>
 
-          {/* Difficulty */}
+          {/* Difficulty select with target.value */}
           <div className="mb-6">
             <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 mb-2">
               Difficulty
@@ -242,7 +225,7 @@ const AddRecipeForm = () => {
               id="difficulty"
               name="difficulty"
               value={formData.difficulty}
-              onChange={(e) => setFormData(prev => ({ ...prev, difficulty: e.target.value }))}
+              onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             >
               <option value="Easy">Easy</option>
@@ -251,7 +234,7 @@ const AddRecipeForm = () => {
             </select>
           </div>
 
-          {/* Ingredients */}
+          {/* Ingredients textarea with target.value handling */}
           <div className="mb-6">
             <label htmlFor="ingredients" className="block text-sm font-medium text-gray-700 mb-2">
               Ingredients * (one per line)
@@ -260,10 +243,7 @@ const AddRecipeForm = () => {
               id="ingredients"
               name="ingredients"
               value={formData.ingredients}
-              onChange={(e) => {
-                setFormData(prev => ({ ...prev, ingredients: e.target.value }));
-                if (errors.ingredients) setErrors(prev => ({ ...prev, ingredients: '' }));
-              }}
+              onChange={handleChange}
               rows="5"
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                 errors.ingredients ? 'border-red-500' : 'border-gray-300'
@@ -273,7 +253,7 @@ const AddRecipeForm = () => {
             {errors.ingredients && <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>}
           </div>
 
-          {/* Instructions */}
+          {/* Instructions textarea with target.value handling */}
           <div className="mb-8">
             <label htmlFor="instructions" className="block text-sm font-medium text-gray-700 mb-2">
               Preparation Instructions * (one step per line)
@@ -282,10 +262,7 @@ const AddRecipeForm = () => {
               id="instructions"
               name="instructions"
               value={formData.instructions}
-              onChange={(e) => {
-                setFormData(prev => ({ ...prev, instructions: e.target.value }));
-                if (errors.instructions) setErrors(prev => ({ ...prev, instructions: '' }));
-              }}
+              onChange={handleChange}
               rows="6"
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                 errors.instructions ? 'border-red-500' : 'border-gray-300'

@@ -1,5 +1,6 @@
 // src/components/formikForm.js
 import { useFormik } from 'formik';
+import { Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 const FormikForm = () => {
@@ -50,50 +51,35 @@ const FormikForm = () => {
       <form onSubmit={formik.handleSubmit} className="registration-form">
         <div className="form-group">
           <label htmlFor="username">Username</label>
-          <input
+          <Field
             type="text"
             id="username"
             name="username"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.username}
             className={formik.touched.username && formik.errors.username ? 'error' : ''}
           />
-          {formik.touched.username && formik.errors.username ? (
-            <div className="error-message">{formik.errors.username}</div>
-          ) : null}
+          <ErrorMessage name="username" component="div" className="error-message" />
         </div>
 
         <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input
+          <Field
             type="email"
             id="email"
             name="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
             className={formik.touched.email && formik.errors.email ? 'error' : ''}
           />
-          {formik.touched.email && formik.errors.email ? (
-            <div className="error-message">{formik.errors.email}</div>
-          ) : null}
+          <ErrorMessage name="email" component="div" className="error-message" />
         </div>
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input
+          <Field
             type="password"
             id="password"
             name="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
             className={formik.touched.password && formik.errors.password ? 'error' : ''}
           />
-          {formik.touched.password && formik.errors.password ? (
-            <div className="error-message">{formik.errors.password}</div>
-          ) : null}
+          <ErrorMessage name="password" component="div" className="error-message" />
         </div>
 
         <button type="submit" disabled={formik.isSubmitting}>

@@ -2,39 +2,41 @@
 import { useState } from 'react';
 
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
   };
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.username.trim()) {
+    if (!username.trim()) {
       newErrors.username = 'Username is required';
     }
 
-    if (!formData.email.trim()) {
+    if (!email.trim()) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = 'Email is invalid';
     }
 
-    if (!formData.password) {
+    if (!password) {
       newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
+    } else if (password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
 
@@ -56,12 +58,14 @@ const RegistrationForm = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({ username, email, password }),
         });
         
         if (response.ok) {
           setSubmitMessage('Registration successful!');
-          setFormData({ username: '', email: '', password: '' });
+          setUsername('');
+          setEmail('');
+          setPassword('');
         } else {
           setSubmitMessage('Registration failed. Please try again.');
         }
@@ -85,8 +89,8 @@ const RegistrationForm = () => {
             type="text"
             id="username"
             name="username"
-            value={formData.username} // Fixed: Added value attribute
-            onChange={handleChange}
+            value={username}
+            onChange={handleUsernameChange}
             className={errors.username ? 'error' : ''}
           />
           {errors.username && <span className="error-message">{errors.username}</span>}
@@ -98,8 +102,8 @@ const RegistrationForm = () => {
             type="email"
             id="email"
             name="email"
-            value={formData.email} // Fixed: Added value attribute
-            onChange={handleChange}
+            value={email}
+            onChange={handleEmailChange}
             className={errors.email ? 'error' : ''}
           />
           {errors.email && <span className="error-message">{errors.email}</span>}
@@ -111,8 +115,8 @@ const RegistrationForm = () => {
             type="password"
             id="password"
             name="password"
-            value={formData.password} // Fixed: Added value attribute
-            onChange={handleChange}
+            value={password}
+            onChange={handlePasswordChange}
             className={errors.password ? 'error' : ''}
           />
           {errors.password && <span className="error-message">{errors.password}</span>}

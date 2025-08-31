@@ -24,13 +24,16 @@ const RegistrationForm = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!username.trim()) {
+    if (!username) {
       newErrors.username = 'Username is required';
     }
 
-    if (!email.trim()) {
+    // Check if email is empty
+    if (!email) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
+    } 
+    // Only check format if email is not empty
+    else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = 'Email is invalid';
     }
 

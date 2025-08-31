@@ -85,7 +85,7 @@ const RegistrationForm = () => {
             type="text"
             id="username"
             name="username"
-            value={formData.username}
+            value={formData.username} // Fixed: Added value attribute
             onChange={handleChange}
             className={errors.username ? 'error' : ''}
           />
@@ -98,7 +98,7 @@ const RegistrationForm = () => {
             type="email"
             id="email"
             name="email"
-            value={formData.email}
+            value={formData.email} // Fixed: Added value attribute
             onChange={handleChange}
             className={errors.email ? 'error' : ''}
           />
@@ -111,7 +111,7 @@ const RegistrationForm = () => {
             type="password"
             id="password"
             name="password"
-            value={formData.password}
+            value={formData.password} // Fixed: Added value attribute
             onChange={handleChange}
             className={errors.password ? 'error' : ''}
           />

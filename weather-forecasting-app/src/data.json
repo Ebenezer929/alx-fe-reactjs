@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .weather-card {
+            transition: all 0.3s ease;
+        }
+        .weather-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .gradient-bg {
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+        }
+        .search-container {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .temperature-display {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        @media (max-width: 768px) {
+            .temperature-display {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen py-8 px-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-5xl font-bold text-gray-800 mb-4">Weather Forecast</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Check current conditions and 5-day forecasts for cities around the world</p>
+        </header>
+
+        <!-- Search Bar -->
+        <div class="bg-white rounded-2xl p-6 mb-10 search-container">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="w-full md:w-3/4">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="fas fa-search text-gray-400"></i>
+                        </div>
+                        <input type="text" id="city-input" placeholder="Enter city name..." class="w-full pl-10 p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                </div>
+                <button id="search-btn" class="w-full md:w-1/4 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-4 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Current Weather -->
+        <div id="current-weather" class="bg-white rounded-2xl shadow-xl p-8 mb-10 weather-card">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-4 border-b border-gray-200">Current Weather</h2>
+            <div class="flex flex-col lg:flex-row items-center justify-between">
+                <div class="flex flex-col md:flex-row items-center mb-6 lg:mb-0">
+                    <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-8">
+                        <img id="weather-icon" src="https://cdn-icons-png.flaticon.com/512/6974/6974833.png" alt="Weather Icon" class="w-32 h-32">
+                    </div>
+                    <div class="text-center md:text-left">
+                        <h3 id="city-name" class="text-4xl font-bold text-gray-800 mb-2">New York</h3>
+                        <p id="weather-description" class="text-xl text-gray-600 mb-4">Partly Cloudy</p>
+                        <div class="flex flex-wrap gap-6 justify-center md:justify-start">
+                            <div class="flex items-center bg-blue-50 rounded-full px-4 py-2">
+                                <i class="fas fa-wind text-blue-500 mr-2"></i>
+                                <span id="wind-speed" class="text-gray-700">5 km/h</span>
+                            </div>
+                            <div class="flex items-center bg-blue-50 rounded-full px-4 py-2">
+                                <i class="fas fa-tint text-blue-500 mr-2"></i>
+                                <span id="humidity" class="text-gray-700">65%</span>
+                            </div>
+                            <div class="flex items-center bg-blue-50 rounded-full px-4 py-2">
+                                <i class="fas fa-temperature-high text-blue-500 mr-2"></i>
+                                <span id="feels-like" class="text-gray-700">Feels like 26°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="temperature-display text-center lg:text-right">
+                    <span id="temperature">24°C</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forecast -->
+        <h2 class="text-3xl font-semibold text-gray-800 mb-6">5-Day Forecast</h2>
+        <div id="forecast" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-10">
+            <!-- Forecast cards will be generated here -->
+        </div>
+
+        <!-- Recent Searches -->
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-4 border-b border-gray-200">Recent Searches</h2>
+            <div id="recent-searches" class="flex flex-wrap gap-3">
+                <!-- Recent search items will be added here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock weather data with proper image URLs
+        const mockWeatherData = {
+            current: {
+                city: "New York",
+                temperature: 24,
+                description: "Partly Cloudy",
+                icon: "https://cdn-icons-png.flaticon.com/512/6974/6974833.png",
+                humidity: 65,
+                wind: 5,
+                feelsLike: 26
+            },
+            forecast: [
+                {
+                    day: "Mon",
+                    date: "Sep 4",
+                    temperature: 26,
+                    description: "Sunny",
+                    icon: "https://cdn-icons-png.flaticon.com/512/6974/6974833.png",
+                    low: 18
+                },
+                {
+                    day: "Tue",
+                    date: "Sep 5",
+                    temperature: 22,
+                    description: "Cloudy",
+                    icon: "https://cdn-icons-png.flaticon.com/512/414/414927.png",
+                    low: 16
+                },
+                {
+                    day: "Wed",
+                    date: "Sep 6",
+                    temperature: 19,
+                    description: "Rainy",
+                    icon: "https://cdn-icons-png.flaticon.com/512/3351/3351979.png",
+                    low: 15
+                },
+                {
+                    day: "Thu",
+                    date: "Sep 7",
+                    temperature: 21,
+                    description: "Partly Cloudy",
+                    icon: "https://cdn-icons-png.flaticon.com/512/6974/6974833.png",
+                    low: 14
+                },
+                {
+                    day: "Fri",
+                    date: "Sep 8",
+                    temperature: 25,
+                    description: "Sunny",
+                    icon: "https://cdn-icons-png.flaticon.com/512/6974/6974833.png",
+                    low: 17
+                }
+            ]
+        };
+
+        // Function to update the UI with weather data
+        function updateWeatherUI(data) {
+            // Update current weather
+            document.getElementById('city-name').textContent = data.current.city;
+            document.getElementById('temperature').textContent = `${data.current.temperature}°C`;
+            document.getElementById('weather-description').textContent = data.current.description;
+            document.getElementById('weather-icon').src = data.current.icon;
+            document.getElementById('wind-speed').textContent = `${data.current.wind} km/h`;
+            document.getElementById('humidity').textContent = `${data.current.humidity}%`;
+            document.getElementById('feels-like').textContent = `Feels like ${data.current.feelsLike}°C`;
+
+            // Update forecast
+            const forecastContainer = document.getElementById('forecast');
+            forecastContainer.innerHTML = '';
+            
+            data.forecast.forEach(day => {
+                const forecastCard = document.createElement('div');
+                forecastCard.className = 'bg-white rounded-xl p-5 text-center weather-card shadow-md hover:shadow-xl';
+                forecastCard.innerHTML = `
+                    <p class="font-bold text-gray-800 text-lg">${day.day}</p>
+                    <p class="text-gray-500 text-sm mb-3">${day.date}</p>
+                    <img src="${day.icon}" alt="${day.description}" class="mx-auto my-4 w-16 h-16">
+                    <p class="text-gray-600 mb-2">${day.description}</p>
+                    <div class="flex justify-center items-center gap-3">
+                        <span class="text-2xl font-bold text-blue-600">${day.temperature}°</span>
+                        <span class="text-gray-400">${day.low}°</span>
+                    </div>
+                `;
+                forecastContainer.appendChild(forecastCard);
+            });
+
+            // Add to recent searches
+            addToRecentSearches(data.current.city);
+        }
+
+        // Function to add city to recent searches
+        function addToRecentSearches(city) {
+            // Get existing searches or initialize empty array
+            let recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+            
+            // Add new city if it's not already in the list
+            if (!recentSearches.includes(city)) {
+                recentSearches.unshift(city);
+                // Keep only the last 5 searches
+                if (recentSearches.length > 5) {
+                    recentSearches.pop();
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+            }
+            
+            // Update UI
+            updateRecentSearchesUI();
+        }
+
+        // Function to update recent searches UI
+        function updateRecentSearchesUI() {
+            const recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+            const container = document.getElementById('recent-searches');
+            container.innerHTML = '';
+            
+            recentSearches.forEach(city => {
+                const tag = document.createElement('div');
+                tag.className = 'bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-full px-5 py-2 cursor-pointer transition-colors duration-300 flex items-center gap-2';
+                tag.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${city}`;
+                tag.addEventListener('click', () => {
+                    document.getElementById('city-input').value = city;
+                    document.getElementById('search-btn').click();
+                });
+                container.appendChild(tag);
+            });
+        }
+
+        // Initialize the app with mock data
+        document.addEventListener('DOMContentLoaded', () => {
+            updateWeatherUI(mockWeatherData);
+            updateRecentSearchesUI();
+            
+            // Add event listener to search button
+            document.getElementById('search-btn').addEventListener('click', () => {
+                const city = document.getElementById('city-input').value.trim();
+                if (city) {
+                    // In a real app, you would fetch data from a weather API here
+                    // For this example, we'll just update the city name in our mock data
+                    const newData = {...mockWeatherData};
+                    newData.current.city = city;
+                    updateWeatherUI(newData);
+                    
+                    // Clear input
+                    document.getElementById('city-input').value = '';
+                }
+            });
+            
+            // Allow pressing Enter to search
+            document.getElementById('city-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    document.getElementById('search-btn').click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

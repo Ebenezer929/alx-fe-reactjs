@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "city": "Accra",
+    "temperature": "28°C",
+    "condition": "Sunny",
+    "icon": "https://openweathermap.org/img/wn/01d.png"
+  },
+  {
+    "id": 2,
+    "city": "London",
+    "temperature": "18°C",
+    "condition": "Cloudy",
+    "icon": "https://openweathermap.org/img/wn/03d.png"
+  },
+  {
+    "id": 3,
+    "city": "New York",
+    "temperature": "22°C",
+    "condition": "Rainy",
+    "icon": "https://openweathermap.org/img/wn/09d.png"
+  }
+]
